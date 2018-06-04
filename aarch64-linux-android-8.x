@@ -35,8 +35,8 @@ echo "${bldblu}|______________________________________________________________|$
 echo ""
 echo ""
 
-cd ../gcc/gcc-UBER && rm -rf * && git reset --hard && git fetch uu uber-8.0 && git checkout FETCH_HEAD;
-cd ../../binutils/binutils-uber && rm -rf * && git reset --hard && git fetch uu 2.29 && git checkout FETCH_HEAD;
+cd ../gcc/gcc-UBER && rm -rf * && git reset --hard && git fetch kk uber-8.0 && git checkout FETCH_HEAD;
+cd ../../binutils/binutils-uber && rm -rf * && git reset --hard && git fetch kk 2.30 && git checkout FETCH_HEAD;
 cd ../../
 export DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 export NUM_JOBS="$(cat /proc/cpuinfo | grep -c processor)";
