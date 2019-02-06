@@ -36,7 +36,7 @@ echo ""
 echo ""
 
 cd ../gcc/gcc-UBER && rm -rf * && git reset --hard && git fetch uu uber-9.x && git checkout FETCH_HEAD;
-cd ../../binutils/binutils-uber && rm -rf * && git reset --hard && git fetch uu 2.30 && git checkout FETCH_HEAD;
+cd ../../binutils/binutils-uber && rm -rf * && git reset --hard && git fetch uu 2.25 && git checkout FETCH_HEAD;
 cd ../../
 export DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 export NUM_JOBS="$(cat /proc/cpuinfo | grep -c processor)";
@@ -51,7 +51,7 @@ then
     make $MAKE_FLAGS clean &> /dev/null;
     make $MAKE_FLAGS distclean &> /dev/null;
 fi;
-export UBER_PATH=$DIR/out/aarch64-linux-android-9.x;
+export UBER_PATH=$DIR/out/arm-linux-androideabi-9.x;
 export PREFIX=--prefix=$UBER_PATH;
 if [ -d "$UBER_PATH" ];
 then
@@ -62,33 +62,33 @@ else
 fi;
 
 # UBERROOT
-cd ../sysroot && rm -rf * && git reset --hard && git fetch uu gcc-6.x && git checkout FETCH_HEAD && cd ../build;
-export UBERROOT_SRC_PATH=../sysroot/arch-arm64;
+cd ../sysroot && rm -rf * && git reset --hard && git fetch uu gcc-8.x && git checkout FETCH_HEAD && cd ../build;
+export UBERROOT_SRC_PATH=../sysroot/arch-arm;
 export UBERROOT_DEST_PATH=$UBER_PATH;
 cp -R $UBERROOT_SRC_PATH -f $UBERROOT_DEST_PATH;
-export UBERROOT=--with-sysroot=$UBERROOT_DEST_PATH/arch-arm64;
+export UBERROOT=--with-sysroot=$UBERROOT_DEST_PATH/arch-arm;
 
 # Build Configuration
-./configure $PREFIX $UBERROOT --host=x86_64-linux-gnu --build=x86_64-linux-gnu --target=aarch64-linux-android --program-transform-name='s&^&aarch64-linux-android-&' --with-gcc-version=UBER --with-pkgversion='UBERTC-9.x.x' --with-binutils-version=uber --with-gmp-version=uber --with-mpfr-version=uber --with-mpc-version=uber --with-cloog-version=uber --with-isl-version=uber --enable-threads --enable-ld=default --enable-fix-cortex-a53-835769 --enable-plugins --enable-gold --disable-option-checking --disable-libsanitizer --enable-libatomic-ifuncs=no --enable-libgomp --enable-initfini-array --disable-softfloat --disable-docs --disable-nls --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' --disable-bootstrap --quiet --with-gxx-include-dir=$UBERROOT_DEST_PATH/c++ --disable-werror --disable-shared --disable-gdb;
+./configure $PREFIX $UBERROOT --host=x86_64-linux-gnu --build=x86_64-linux-gnu --target=arm-linux-androideabi --program-transform-name='s&^&arm-linux-androideabi-&' --with-gcc-version=UBER --with-pkgversion='UBERTC-8.x.x' --with-binutils-version=uber --with-gold-version=uber --with-gmp-version=uber --with-mpfr-version=uber --with-mpc-version=uber --with-cloog-version=uber --with-isl-version=uber --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' --with-gxx-include-dir=$UBERROOT_DEST_PATH/c++ --enable-initfini-array --enable-gnu-indirect-function --enable-gold=default --enable-threads --enable-multilib --with-libexpat --with-python --with-gnu-ld --with-gnu-as --disable-werror --disable-shared --disable-option-checking --disable-bootstrap --disable-libsanitizer --disable-libgomp --quiet --enable-plugins --disable-gdb;
 
 echo ""
-echo "${bldblu}Building your UBER aarch64-9.x Toolchain!!!${txtrst}"
+echo "${bldblu}Building your UBER arm-linux-androideabi-9.x Toolchain!!!${txtrst}"
 echo ""
 all1=$(date +%s.%N)
-script -q $DIR/out/UBER-AARCH64-9.x.log -c "make 1>/dev/null $MAKE_FLAGS";
+script -q $DIR/out/UBER-ANDROIDEABI-9.x.log -c "make 1>/dev/null $MAKE_FLAGS";
 
 echo ""
 echo "${bldblu}Installing Toolchain to:${txtrst}${blu} $UBER_PATH ${txtrst}"
 echo ""
 make install &> /dev/null;
 
-GCC_INSTALLED=$UBER_PATH/bin/aarch64-linux-android-gcc;
+GCC_INSTALLED=$UBER_PATH/bin/arm-linux-androideabi-gcc;
 strip -s $UBER_PATH/bin/*
-strip -s $UBER_PATH/aarch64-linux-android/bin/*
-strip -s $UBER_PATH/libexec/gcc/aarch64-linux-android/*/*
+strip -s $UBER_PATH/arm-linux-androideabi/bin/*
+strip -s $UBER_PATH/libexec/gcc/arm-linux-androideabi/*/*
 if [ -e $GCC_INSTALLED ];
 then
-    rm -rf $UBERROOT_DEST_PATH/arch-arm64;
+    rm -rf $UBERROOT_DEST_PATH/arch-arm;
     echo ""
     echo "${bldgrn}  _|_|_|  _|    _|    _|_|_|    _|_|_|  _|_|_|_|    _|_|_|    _|_|_|  _|${txtrst}"
     echo "${bldgrn}_|        _|    _|  _|        _|        _|        _|        _|        _|${txtrst}"
@@ -96,7 +96,7 @@ then
     echo "${bldgrn}      _|  _|    _|  _|        _|        _|              _|        _|    ${txtrst}"
     echo "${bldgrn}_|_|_|      _|_|      _|_|_|    _|_|_|  _|_|_|_|  _|_|_|    _|_|_|    _|${txtrst}"
     echo ""
-    echo "${bldgrn}Your UBER 9.x aarch64 Toolchain has completed successfully!!! ${txtrst}"
+    echo "${bldgrn}Your UBER 9.x.x androideabi Toolchain has completed successfully!!! ${txtrst}"
     echo "${bldgrn}Toolchain is located at:${txtrst}${grn} $UBER_PATH ${txtrst}"
     echo ""
     all2=$(date +%s.%N)
@@ -110,7 +110,7 @@ else
     echo "${bldred}_|        _|    _|  _|    _|  _|    _|  _|    _|${txtrst}"
     echo "${bldred}_|_|_|_|  _|    _|  _|    _|    _|_|    _|    _|${txtrst}"
     echo ""
-    echo "${bldred}Error Log is found at:${txtrst}${red} $DIR/out/UBER-AARCH64-9.x.log ${txtrst}"
+    echo "${bldred}Error Log is found at:${txtrst}${red} $DIR/out/UBER-ANDROIDEABI-9.x.log ${txtrst}"
     echo ""
     read -p "Press ENTER to Exit"
 fi;
