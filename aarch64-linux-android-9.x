@@ -69,7 +69,13 @@ cp -R $UBERROOT_SRC_PATH -f $UBERROOT_DEST_PATH;
 export UBERROOT=--with-sysroot=$UBERROOT_DEST_PATH/arch-arm64;
 
 # Build Configuration
-./configure $PREFIX $UBERROOT --host=x86_64-linux-gnu --build=x86_64-linux-gnu --target=aarch64-linux-android --program-transform-name='s&^&aarch64-linux-android-&' --with-gcc-version=UBER --with-pkgversion='UBERTC-9.x.x' --with-binutils-version=uber --with-gmp-version=uber --with-mpfr-version=uber --with-mpc-version=uber --with-cloog-version=uber --with-isl-version=uber --enable-threads --enable-ld=default --enable-fix-cortex-a53-835769 --enable-plugins --enable-gold --disable-option-checking --disable-libsanitizer --enable-libatomic-ifuncs=no --enable-libgomp --enable-initfini-array --disable-softfloat --disable-docs --disable-nls --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' --disable-bootstrap --quiet --with-gxx-include-dir=$UBERROOT_DEST_PATH/c++ --disable-werror --disable-shared --disable-gdb;
+./configure $PREFIX $UBERROOT --host=x86_64-linux-gnu --build=x86_64-linux-gnu --target=aarch64-linux-android --program-transform-name='s&^&aarch64-linux-android-&' --with-gcc-version=UBER --with-pkgversion='UBERTC-9.x.x' \
+                    --with-binutils-version=uber --with-gmp-version=uber --with-mpfr-version=uber --with-mpc-version=uber --with-cloog-version=uber --with-isl-version=uber --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' \
+                    --with-gxx-include-dir=$UBERROOT_DEST_PATH/c++ --with-bugurl=https://github.com/UBERTC-Revived --with-gnu-as --with-gnu-ld \
+                    --disable-ppl-version-check --disable-cloog-version-check --disable-isl-version-check --disable-libssp --disable-nls --disable-libmudflap --enable-libgomp --disable-libstdc__-v3 --disable-sjlj-exceptions \
+                    --disable-shared --disable-tls --disable-libitm --disable-bootstrap --disable-libsanitizer --disable-gdb --disable-shared --disable-werror --disable-docs --disable-softfloat --disable-option-checking \
+                    --enable-fix-cortex-a53-835769 --enable-cloog-backend=isl --enable-bionic-libs --enable-libatomic-ifuncs=no --enable-initfini-array	--enable-languages=c,c++ --enable-plugins --enable-ld=default \
+                    --enable-threads --enable-eh-frame-hdr-for-static --enable-graphite=yes --enable-gold --quiet;
 
 echo ""
 echo "${bldblu}Building your UBER aarch64-9.x Toolchain!!!${txtrst}"
